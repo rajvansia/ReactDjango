@@ -38,7 +38,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'band',
+    'rest_framework',
 )
+
+# REST_FRAMEWORK=(
+#     'DEFAULT_FILTER_BACKENDS':('rest_framework.filters.DjangoFilterBackends',))
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
