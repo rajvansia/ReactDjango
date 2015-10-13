@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title>Bands|{% block tite %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static "build/css/main.css" %}" type="text/css" />
+    </head>
+    <body>
+       <h1>Bands</h1> 
+       {% block content %}
+       
+       {% endblock %}
+    </body>
+</html>
