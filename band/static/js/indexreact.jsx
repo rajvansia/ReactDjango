@@ -179,27 +179,37 @@ var bands=[
 
 
 var UserGist = React.createClass({
-  getInitialState: function() {
+     loadCommentsFromServer: function() {
+ 
+      $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {this.setState({
+          username: data.name,
+          lastGistUrl: data.bio,
+          dateGistUrl: data.date_added}
+      )}.bind(this),
+     error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+   getInitialState: function() {
     return {
       username: '',
       lastGistUrl: '',
        dateGistUrl:''
     };
   },
-
   componentDidMount: function() {
-    $.get(this.props.source, function(result) {
-      var lastGist = result;
-      if (this.isMounted()) {
-        this.setState({
-          username: lastGist.name,
-          lastGistUrl: lastGist.bio,
-          dateGistUrl: lastGist.date_added
-        });
-      }
-    }.bind(this));
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
 
+
+    
+     
   render: function() {
     return (
       <div>
@@ -212,9 +222,50 @@ var UserGist = React.createClass({
 });
 
 React.render(
-  <UserGist source="https://music-rajvansia.c9.io/band/api/1/?format=json" />,
+  <UserGist url="https://music-rajvansia.c9.io/band/api/1/?format=json" pollInterval={2000} />,
  document.getElementById('contentsss')
 );
+
+
+// var UserGist = React.createClass({
+//   getInitialState: function() {
+//     return {
+//       username: '',
+//       lastGistUrl: '',
+//       dateGistUrl:''
+//     };
+//   },
+
+//   componentDidMount: function() {
+      
+      
+//     $.get(this.props.source, function(result) {
+//       var lastGist = result;
+//       if (this.isMounted()) {
+//         this.setState({
+//           username: lastGist.name,
+//           lastGistUrl: lastGist.bio,
+//           dateGistUrl: lastGist.date_added
+//         });
+//       }
+//     }.bind(this));
+//   },
+
+//   render: function() {
+//     return (
+//       <div>
+//       <h1> Name: {this.state.username}</h1>
+//       <h4> Bio: {this.state.lastGistUrl}.</h4>
+//       <h4> dateadded: {this.state.dateGistUrl}.</h4>
+//       </div>
+//     );
+//   }
+// });
+
+// React.render(
+//   <UserGist source="https://music-rajvansia.c9.io/band/api/1/?format=json" />,
+//  document.getElementById('contentsss')
+// );
 
     
 //     var Myband= React.createClass({
