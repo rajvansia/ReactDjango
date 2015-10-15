@@ -9,5 +9,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^band/', include('band.urls')),
       url(r'^$', 'music.views.index'),
-      
+        url(r'^user/', include('band.userurls')),
 )

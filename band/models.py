@@ -15,3 +15,16 @@ class UserProfile(models.Model):
     birthday=models.DateField(default=datetime.datetime.now)
     is_parent = models.BooleanField(default=False)
     gender= models.CharField(max_length=30, blank=True,null=True)
+    
+class Parent(models.Model):
+    parent = models.ForeignKey(UserProfile)
+    
+class Child(models.Model):
+    child = models.ForeignKey(UserProfile)
+   
+      
+      
+      
+class Family(models.Model):
+    mychild = models.ForeignKey(Child)
+    myparent = models.ForeignKey(Parent)
