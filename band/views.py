@@ -1,7 +1,7 @@
 from django.shortcuts import render 
 from models import Band
 from models import UserProfile
-from rest_framework import generics
+from rest_framework import generics, permissions
 from serializers import BandSerializer
 from serializers import UserSerializer
 from .forms import UserForm
@@ -13,6 +13,7 @@ def all_bands(request):
 class BandDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset=Band.objects.all()
     serializer_class=BandSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
 def band(request, band_id,format=None):
     band=Band.objects.get(pk=band_id)
@@ -41,7 +42,7 @@ def user_new(request):
             # user.username = request.user
             # user.gender = request.gender
             user.save()
-            return redirect('band/band.views.user', pk=user.pk)
+            return render(request, "band/user.html",{'user':user})
     else:
         form = UserForm()
     return render(request, 'band/user_edit.html', {'form': form})

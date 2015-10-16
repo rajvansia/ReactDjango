@@ -38,11 +38,30 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'band',
+    'users',
     'rest_framework',
+    'social.apps.django_app.default',
+    'oauth2_provider',
+    # 'corsheaders',
 )
 
 # REST_FRAMEWORK=(
 #     'DEFAULT_FILTER_BACKENDS':('rest_framework.filters.DjangoFilterBackends',))
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    )
+}
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope'}
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -91,3 +110,11 @@ USE_TZ = True
 STATIC_ROOT='/home/ubuntu/workspace/static/'
 MEDIA_ROOT='/home/ubuntu/workspace/uploads/'
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1159743344039181'
+SOCIAL_AUTH_FACEBOOK_SECRET = '387aa6c3ebdcc76ee15be1ca71f48e7d'
